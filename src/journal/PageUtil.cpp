@@ -140,6 +140,7 @@ PageHeader PageUtil::GetPageHeader(const string &dir, const string &jname, short
 
 void* PageUtil::LoadPageBuffer(const string& path, int size, bool isWriting, bool quickMode)
 {
+    isWriting = true;
     boost::filesystem::path page_path = path;
     boost::filesystem::path page_folder_path = page_path.parent_path();
     if(!boost::filesystem::exists(page_folder_path)) {
@@ -195,7 +196,7 @@ void* PageUtil::LoadPageBuffer(const string& path, int size, bool isWriting, boo
     return buffer;
 #else
     int fd = open(path.c_str(), (isWriting) ? (O_RDWR | O_CREAT) : O_RDONLY, (mode_t)0600);
-
+    printf("create file: %s, write flag: %d\n", path.c_str(), isWriting);
     if (fd < 0)
     {
         if (!isWriting)

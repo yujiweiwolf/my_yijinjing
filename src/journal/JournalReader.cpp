@@ -161,3 +161,19 @@ bool JournalReader::seekTimeJournalByName(const string& jname, int64_t nano)
         return false;
     return seekTimeJournal(iter->second, nano);
 }
+
+void JournalReader::ReadData(std::vector<FrameHeader*>& out) {
+    FrameHeader *header = nullptr;
+    for (JournalPtr &journal: journals) {
+        curJournal = journal;
+        while (true) {
+            header = (FrameHeader *) (journal->locateFrame());
+            if (header != nullptr && header->msg_type != 0 && header->length != 0) {
+                out.push_back(header);
+                curJournal->passFrame();
+            } else {
+                break;
+            }
+        }
+    }
+}

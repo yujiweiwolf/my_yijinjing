@@ -131,18 +131,18 @@ int PageProvider::register_journal(const string& dir, const string& jname)
 
 PagePtr PageProvider::getPage(const string &dir, const string &jname, int serviceIdx, short pageNum)
 {
-    PageCommMsg* serverMsg = GET_COMM_MSG(comm_buffer, serviceIdx);
-    serverMsg->page_num = pageNum;
-    serverMsg->status = PAGED_COMM_REQUESTING;
-    while (serverMsg->status == PAGED_COMM_REQUESTING) {}
-
-    if (serverMsg->status != PAGED_COMM_ALLOCATED)
-    {
-        if (serverMsg->status == PAGED_COMM_MORE_THAN_ONE_WRITE)
-            throw std::runtime_error("more than one writer is writing " + dir + " " + jname);
-        else
-            return PagePtr();
-    }
+//    PageCommMsg* serverMsg = GET_COMM_MSG(comm_buffer, serviceIdx);
+//    serverMsg->page_num = pageNum;
+//    serverMsg->status = PAGED_COMM_REQUESTING;
+//    while (serverMsg->status == PAGED_COMM_REQUESTING) {}
+//
+//    if (serverMsg->status != PAGED_COMM_ALLOCATED)
+//    {
+//        if (serverMsg->status == PAGED_COMM_MORE_THAN_ONE_WRITE)
+//            throw std::runtime_error("more than one writer is writing " + dir + " " + jname);
+//        else
+//            return PagePtr();
+//    }
     return Page::load(dir, jname, pageNum, is_writer, true);
 }
 

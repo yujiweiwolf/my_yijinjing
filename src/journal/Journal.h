@@ -57,6 +57,8 @@ private:
     /** private constructor, make create the only builder */
     Journal(): expired(false){};
 
+
+
 public:
     /** the only entrance of creating a Journal */
     static JournalPtr create(const string& dir, const string& jname, int serviceIdx, PageProviderPtr & provider);

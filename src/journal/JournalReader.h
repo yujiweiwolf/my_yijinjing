@@ -77,6 +77,8 @@ public:
      * return true if that journal exists and seeked successfully */
     bool  seekTimeJournalByName(const string& jname, int64_t nano);
 
+    void ReadData(std::vector<FrameHeader*>& out);
+
 public:
     // creators
     static JournalReaderPtr create(const vector<string>& dirs,
