@@ -48,6 +48,8 @@
 #define FEEDER_ORDER 31002
 #define FEEDER_TRADE 31003
 
+#define ONLY_LOG 32001
+
 using namespace std;
 using namespace boost::gregorian;
 
@@ -413,19 +415,19 @@ struct StrategyID {
     }
 };
 
-typedef std::shared_ptr<QueryTradeAssetReq> QueryTradeAssetReqPtr;
-typedef std::shared_ptr<QueryTradeAssetRep> QueryTradeAssetRepPtr;
-typedef std::shared_ptr<QueryTradePositionReq> QueryTradePositionReqPtr;
-typedef std::shared_ptr<QueryTradePositionRep> QueryTradePositionRepPtr;
-typedef std::shared_ptr<QueryTradeOrderReq> QueryTradeOrderReqPtr;
-typedef std::shared_ptr<QueryTradeOrderRep> QueryTradeOrderRepPtr;
-typedef std::shared_ptr<QueryTradeKnockReq> QueryTradeKnockReqPtr;
-typedef std::shared_ptr<QueryTradeKnockRep> QueryTradeKnockRepPtr;
-typedef std::shared_ptr<TradeOrderReq> TradeOrderReqPtr;
-typedef std::shared_ptr<TradeOrderRep> TradeOrderRepPtr;
-typedef std::shared_ptr<TradeWithdrawReq> TradeWithdrawReqPtr;
-typedef std::shared_ptr<TradeWithdrawRep> TradeWithdrawRepPtr;
-typedef std::shared_ptr<InstrumentInfo> QStockPtr;
+//typedef std::shared_ptr<QueryTradeAssetReq> QueryTradeAssetReqPtr;
+//typedef std::shared_ptr<QueryTradeAssetRep> QueryTradeAssetRepPtr;
+//typedef std::shared_ptr<QueryTradePositionReq> QueryTradePositionReqPtr;
+//typedef std::shared_ptr<QueryTradePositionRep> QueryTradePositionRepPtr;
+//typedef std::shared_ptr<QueryTradeOrderReq> QueryTradeOrderReqPtr;
+//typedef std::shared_ptr<QueryTradeOrderRep> QueryTradeOrderRepPtr;
+//typedef std::shared_ptr<QueryTradeKnockReq> QueryTradeKnockReqPtr;
+//typedef std::shared_ptr<QueryTradeKnockRep> QueryTradeKnockRepPtr;
+//typedef std::shared_ptr<TradeOrderReq> TradeOrderReqPtr;
+//typedef std::shared_ptr<TradeOrderRep> TradeOrderRepPtr;
+//typedef std::shared_ptr<TradeWithdrawReq> TradeWithdrawReqPtr;
+//typedef std::shared_ptr<TradeWithdrawRep> TradeWithdrawRepPtr;
+//typedef std::shared_ptr<InstrumentInfo> QStockPtr;
 
 
 struct SpinLock {

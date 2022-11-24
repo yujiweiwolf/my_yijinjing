@@ -13,15 +13,15 @@ void Strategy::SetStragety(string strategy_name, int64_t strategy_id) {
 }
 
 void Strategy::AddReadFile(const string& dir, const string file) {
-    if (!reader) {
-        reader = yijinjing::JournalReader::create(dir, file, yijinjing::TIME_FROM_FIRST, strategy_name_);
+    if (!reader_) {
+        reader_ = yijinjing::JournalReader::create(dir, file, yijinjing::TIME_FROM_FIRST, strategy_name_);
     } else {
-        reader->addJournal(dir, file);
+        reader_->addJournal(dir, file);
     }
 }
 
 void Strategy::AddWriteFile(const string& dir, const string file) {
-    writer = yijinjing::JournalWriter::create(dir, file, strategy_name_);
+    writer_ = yijinjing::JournalWriter::create(dir, file, strategy_name_);
 }
 
 void Strategy::SubInstrument(std::vector<std::string>& codes) {
@@ -37,9 +37,8 @@ void Strategy::StartWork() {
 };
 
 void Strategy::Run() {
-    yijinjing::FramePtr frame;
     while (true) {
-        frame = reader->getNextFrame();
+        yijinjing::FramePtr frame = reader_->getNextFrame();
         ProcessMessage(frame);
     }
 }
@@ -63,14 +62,14 @@ void Strategy::ProcessMessage(yijinjing::FramePtr frame) {
                 }
                 break;
             }
-            case FEEDER_ORDER: {
-                OnLevel2Order((QOrderT*)data);
-                break;
-            }
-            case FEEDER_TRADE: {
-                OnLevel2Knock((QKnockT*)data);
-                break;
-            }
+//            case FEEDER_ORDER: {
+//                // OnLevel2Order((QOrderT*)data);
+//                break;
+//            }
+//            case FEEDER_TRADE: {
+//                // OnLevel2Knock((QKnockT*)data);
+//                break;
+//            }
             case TRADE_ORDER_REQ: {
                 TradeOrder *order = (TradeOrder *) data;
                 std::cout << " code: " << order->code
@@ -79,9 +78,29 @@ void Strategy::ProcessMessage(yijinjing::FramePtr frame) {
                           << ", bs_flag: " << order->bs_flag << std::endl;
                 break;
             }
+            case API_RSP_QRY_ACCOUT: {
+                OnRspQueryAccout((QueryTradeAssetRep*)data);
+                break;
+            }
+            case API_RSP_QRY_POSITION: {
+                OnRspQueryPosition((QueryTradePositionRep*)data);
+                break;
+            }
+            case API_RSP_QRY_TRADE: {
+                OnRspQueryTrade((QueryTradeKnockRep*)data);
+                break;
+            }
+            case TRADE_ORDER_REP: {
+                OnRspOrder((TradeOrderRep*)data);
+                break;
+            }
+            case TRADE_WITHDRAW_REP: {
+                OnRspWithdraw((TradeWithdrawRep*)data);
+                break;
+            }
+            default:
             break;
         }
-
     }
 }
 

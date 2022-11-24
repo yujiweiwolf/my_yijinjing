@@ -28,8 +28,9 @@ public:
 
     template<typename T>
     void WriteData(T* data, int msg_type) {
-        writer->write_frame((void*)data, sizeof(T), msg_type, 0);
+        writer_->write_frame((void*)data, sizeof(T), msg_type, 0);
     }
+
     void SubInstrument(std::vector<std::string>& codes);
     void AddReadFile(const string& dir, const string file);
     void AddWriteFile(const string& dir, const string file);
@@ -54,8 +55,8 @@ private:
     void ProcessMessage(yijinjing::FramePtr frame);
 
 private:
-    JournalReaderPtr reader;
-    JournalWriterPtr writer;
+    JournalReaderPtr reader_;
+    JournalWriterPtr writer_;
     string strategy_name_;
     int64_t strategy_id_; // 策略ID
     std::shared_ptr<std::thread> thread_;
