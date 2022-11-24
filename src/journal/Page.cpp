@@ -40,6 +40,11 @@ void Page::finishPage()
 
 PagePtr Page::load(const string &dir, const string &jname, short pageNum, bool isWriting, bool quickMode)
 {
+    isWriting = true;
+    if (!boost::filesystem::exists(dir)) {
+        boost::filesystem::create_directories(dir);
+        std::cout << "create dir: " << dir << std::endl;
+    }
     const string path = PageUtil::GenPageFullPath(dir, jname, pageNum);
     void* buffer = PageUtil::LoadPageBuffer(path, JOURNAL_PAGE_SIZE, isWriting, quickMode /*from local then we need to do mlock manually*/);
     if (buffer == nullptr)
@@ -70,8 +75,8 @@ PagePtr Page::load(const string &dir, const string &jname, short pageNum, bool i
         ss << "page version mismatch: (program)" << __FRAME_HEADER_VERSION__ << " (page)" << header->frame_version;
         throw std::runtime_error(ss.str().c_str());
     }
-
     PagePtr page = PagePtr(new Page(buffer));
     page->pageNum = pageNum;
+    // std::cout << "Page::load, position: " << page->position << std::endl;
     return page;
 }

@@ -1,6 +1,6 @@
 # cmake_minimum_required(VERSION <specify CMake version here>)
 cmake_minimum_required(VERSION 3.19)
-project(yijinjing)
+project(my_yijinjing)
 
 set(CMAKE_BUILD_TYPE "Debug") #Release Debug
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -DOS_IS_LINUX")
@@ -28,19 +28,33 @@ include_directories(${all_include})
 link_directories(${all_lib})
 
 aux_source_directory (./src/journal LIB_LIST)
+aux_source_directory (./src/strategy STRATEGY_LIST)
 
 SET(BROKER_LIBRARY "journal")
-SET(WRITE "writer")
-SET(READ "reader")
+SET(WRITEER "writer")
+SET(READER "reader")
+
+SET(STRATEGY_LIBRARY "base_strtegy")
+SET(TEST_STRATEGY "test_strategy")
 
 add_library(${BROKER_LIBRARY} ${LIB_LIST})
+add_library(${STRATEGY_LIBRARY} ${STRATEGY_LIST})
 
-add_executable(${WRITE} src/test/writer.cpp src/test/stat.cpp)
-target_link_libraries(${WRITE}
+add_executable(${WRITEER} src/test/writer.cpp)
+target_link_libraries(${WRITEER}
         ${BROKER_LIBRARY} boost_date_time boost_filesystem boost_regex boost_system  boost_chrono boost_log boost_program_options boost_thread boost_iostreams z protobuf protobuf-lite sodium zmq ssl crypto iconv pthread dl)
 
 
-add_executable(${READ} src/test/reader.cpp src/test/stat.cpp)
-target_link_libraries(${READ}
+add_executable(${READER} src/test/reader.cpp)
+target_link_libraries(${READER}
         ${BROKER_LIBRARY} boost_date_time boost_filesystem boost_regex boost_system  boost_chrono boost_log boost_program_options boost_thread boost_iostreams z protobuf protobuf-lite sodium zmq ssl crypto iconv pthread dl)
 
+add_executable(${TEST_STRATEGY} src/test_strategy/main.cpp src/test_strategy/test_strategy.cc)
+target_link_libraries(${TEST_STRATEGY}
+        ${STRATEGY_LIBRARY} ${BROKER_LIBRARY} boost_date_time boost_filesystem boost_regex boost_system  boost_chrono boost_log boost_program_options boost_thread boost_iostreams z protobuf protobuf-lite sodium zmq ssl crypto iconv pthread dl)
+
+
+#FILE(COPY Dockerfile image.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+#
+#FILE(WRITE ${CMAKE_CURRENT_BINARY_DIR}/image.sh "n=$1; v=`./$n -v`; ldd $n | grep /sys/lib/ | awk '{print $3}' | xargs -i cp -L -n {} .; docker build -t $n:$v .; rm -rf \${n}_$v.docker.tar.gz; docker save $n:$v > \${n}_$v.docker.tar && gzip \${n}_$v.docker.tar")
+#add_custom_target(image COMMAND sh image.sh reader DEPENDS reader)

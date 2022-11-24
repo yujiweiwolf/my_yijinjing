@@ -24,6 +24,11 @@
 #define YIJINJING_PAGEUTIL_H
 
 #include "../utils/YJJ_DECLARE.h"
+#include <cstdio>
+#include <sstream>
+#include <iostream>
+#include <boost/regex.hpp>
+#include <boost/filesystem.hpp>
 
 YJJ_NAMESPACE_START
 

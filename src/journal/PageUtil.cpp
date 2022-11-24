@@ -35,12 +35,6 @@
 #include <sys/types.h>
 #endif // _WINDOWS
 
-#include <cstdio>
-#include <sstream>
-
-#include <boost/regex.hpp>
-#include <boost/filesystem.hpp>
-
 USING_YJJ_NAMESPACE
 
 string PageUtil::GenPageFileName(const string &jname, short pageNum)
@@ -77,6 +71,10 @@ short PageUtil::ExtractPageNum(const string &filename, const string &jname)
 
 vector<short> PageUtil::GetPageNums(const string& dir, const string& jname)
 {
+    if (!boost::filesystem::exists(dir)) {
+        boost::filesystem::create_directories(dir);
+        std::cout << "create dir: " << dir << std::endl;
+    }
     const string namePattern = GetPageFileNamePattern(jname);
     boost::filesystem::path p(dir);
     boost::regex pattern(namePattern);
