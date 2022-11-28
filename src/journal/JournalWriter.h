@@ -68,7 +68,9 @@ public:
     inline int64_t write_data(const T & data, FH_TYPE_MSG_TP msgType, FH_TYPE_LASTFG lastFlag){
         return write_frame(&data, sizeof(T), msgType, lastFlag);
     }
-    
+
+    void* GetFrame();
+
     /*data is copied to frame from elsewhere (may avoid double copy where preparing data)*/
     /** get next writable frame address */
     Frame   locateFrame();

@@ -50,7 +50,7 @@
     }
 
     void TestStrategy::OnRtnTradeKnock(TradeKnock* rtn) {
-
+        
     }
 
 

@@ -64,6 +64,7 @@ PagePtr Page::load(const string &dir, const string &jname, short pageNum, bool i
         header->status = JOURNAL_PAGE_STATUS_INITED;
         // write current frame header version inside.
         header->frame_version = __FRAME_HEADER_VERSION__;
+        memset((char*)buffer + sizeof(PageHeader), 0, JOURNAL_PAGE_SIZE - sizeof(PageHeader));
     }
     else if (header->frame_version > 0 && header->frame_version!= __FRAME_HEADER_VERSION__)
     {
@@ -77,6 +78,5 @@ PagePtr Page::load(const string &dir, const string &jname, short pageNum, bool i
     }
     PagePtr page = PagePtr(new Page(buffer));
     page->pageNum = pageNum;
-    // std::cout << "Page::load, position: " << page->position << std::endl;
     return page;
 }

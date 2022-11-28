@@ -67,6 +67,10 @@ int64_t JournalWriter::write_frame(const void* data, FH_TYPE_LENGTH length,  FH_
     return nano;
 }
 
+void* JournalWriter::GetFrame() {
+    return journal->locateFrame();
+}
+
 Frame JournalWriter::locateFrame(){
     FH_TYPE_NANOTM nano = getNanoTime();
     

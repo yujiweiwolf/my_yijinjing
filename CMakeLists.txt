@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(my_yijinjing)
 
-set(CMAKE_BUILD_TYPE "Debug") #Release Debug
+set(CMAKE_BUILD_TYPE "Release") #Release Debug
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -DOS_IS_LINUX")
 add_compile_options(-std=c++17 -Wall -O2)
 
@@ -40,7 +40,7 @@ SET(TEST_STRATEGY "test_strategy")
 add_library(${BROKER_LIBRARY} ${LIB_LIST})
 add_library(${STRATEGY_LIBRARY} ${STRATEGY_LIST})
 
-add_executable(${WRITEER} src/test/writer.cpp)
+add_executable(${WRITEER} src/test/pressure_writer.cpp)
 target_link_libraries(${WRITEER}
         ${BROKER_LIBRARY} boost_date_time boost_filesystem boost_regex boost_system  boost_chrono boost_log boost_program_options boost_thread boost_iostreams z protobuf protobuf-lite sodium zmq ssl crypto iconv pthread dl)
 

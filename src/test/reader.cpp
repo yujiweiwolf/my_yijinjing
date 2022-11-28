@@ -16,6 +16,7 @@ using yijinjing::JournalReaderPtr;
 using namespace yijinjing;
 
 #define KUNGFU_JOURNAL_FOLDER "./data/"  /**< where we put journal files */
+#define COUNT 10000
 
 bool cpu_set_affinity(int cpu_id){
 #if defined __linux__
@@ -50,90 +51,29 @@ int main(){
     cpu_set_affinity(cpu_id_);
     std::vector<string> empty;
     JournalReaderPtr reader = yijinjing::JournalReader::create(KUNGFU_JOURNAL_FOLDER, "feeder", yijinjing::TIME_FROM_FIRST, "Client_R");
-    reader->addJournal(KUNGFU_JOURNAL_FOLDER, "trade");
-    bool flag = reader->seekTimeJournalByName("trade", yijinjing::TIME_FROM_FIRST);
-    yijinjing::FramePtr frame;
-    int index = 0;
-    while (true) {
-        frame = reader->getNextFrame();
-        if (frame.get() != nullptr)
-        {
-            short msg_type = frame->getMsgType();
-            void* data = frame->getData();
-            int64_t msg_time = frame->getNano();
-            int len = frame->getDataLength();
-            FH_TYPE_LASTFG last_flag = frame->getLastFlag();
-            index++;
-            std::cout << "index: " << index
-                    << ", msg_type: " << msg_type << std::endl;
-            if (msg_type == FEEDER_TICK) {
-                QTickT *tick = (QTickT *) data;
-                std::cout << " code: " << tick->code
-                          << ", new_price: " << tick->new_price
-                          << ", new_volume: " << tick->new_volume << std::endl;
-            } else if (msg_type == TRADE_ORDER_REQ) {
-                TradeOrder *order = (TradeOrder *) data;
-                std::cout << " code: " << order->code
-                          << ", price: " << order->price
-                          << ", volume: " << order->volume
-                          << ", bs_flag: " << order->bs_flag << std::endl;
-            }
-        }
-    }
 
-
-//    std::vector<yijinjing::FrameHeader*> out;
+//    reader->addJournal(KUNGFU_JOURNAL_FOLDER, "trade");
+//    bool flag = reader->seekTimeJournalByName("trade", yijinjing::TIME_FROM_FIRST);
+//    yijinjing::FramePtr frame;
 //    int index = 0;
-//    vector<int64_t> all_diff;
-//    vector<QTickT> all_tick;
 //    while (true) {
-//        out.clear();
-//        reader->ReadData(out);
-////        if (out.size() > 0) {
-////            std::cout << "out size: " << out.size() << std::endl;
-////        }
-//        for (auto& it : out) {
-//            yijinjing::Frame frame((void*)it);
-//            short msg_type = frame.getMsgType();
-//            int date_length = frame.getDataLength();
-//            void* data = frame.getData();
+//        frame = reader->getNextFrame();
+//        if (frame.get() != nullptr)
+//        {
+//            short msg_type = frame->getMsgType();
+//            void* data = frame->getData();
+//            int64_t msg_time = frame->getNano();
+//            int len = frame->getDataLength();
+//            FH_TYPE_LASTFG last_flag = frame->getLastFlag();
 //            index++;
 //            std::cout << "index: " << index
 //                    << ", msg_type: " << msg_type << std::endl;
-//              // << ", msg_type: " << msg_type << ", data is " << std::string((char*)data, date_length) << std::endl
-//            if (msg_type == 101) {
-//                QTickT* tick = (QTickT*)data;
+//            if (msg_type == FEEDER_TICK) {
+//                QTickT *tick = (QTickT *) data;
 //                std::cout << " code: " << tick->code
 //                          << ", new_price: " << tick->new_price
 //                          << ", new_volume: " << tick->new_volume << std::endl;
-//;
-////                int64_t recei_time = getNanoTime();
-////                int64_t diff = recei_time- tick->write_time;
-////                all_diff.push_back(diff);
-////                all_tick.push_back(*tick);
-////
-////                if (all_diff.size() == 10000) {
-////                    std::sort(all_diff.begin(), all_diff.end(), [](int64_t a, int64_t b) {return a > b; });
-////                    int num = 0;
-////                    for (auto& it : all_diff) {
-////                        std::cout << "after sort diff: " << it  << ", num: " << ++num << std::endl;
-////                    }
-////                    std::cout << "over" << ", index: " << index << std::endl;
-////                    StatisticsTimeSpread(all_diff, 1000);
-////
-//////                    for (auto &it : all_tick) {
-//////                        std::cout << " code: " << it.code
-//////                                  << ", new_price: " << it.new_price
-//////                                  << ", new_volume: " << it.new_volume
-//////                                  << ", local_time: " << it.local_time
-//////                                  << ", recei_time: " << it.recei_time
-//////                                  << ", diff: " << (it.recei_time - it.local_time) << std::endl;
-//////                    }
-//////                    std::cout << " ============================= index:" << index << std::endl;
-////                    all_diff.clear();
-////                    all_tick.clear();
-////                }
-//            } else if (msg_type == 777) {
+//            } else if (msg_type == TRADE_ORDER_REQ) {
 //                TradeOrder *order = (TradeOrder *) data;
 //                std::cout << " code: " << order->code
 //                          << ", price: " << order->price
@@ -142,4 +82,76 @@ int main(){
 //            }
 //        }
 //    }
+    using namespace std::chrono;
+    system_clock::time_point now = system_clock::now();
+    chrono::nanoseconds d = now.time_since_epoch();
+    int64_t nano_time = d.count();
+    cout << "current nanoseconds: " << d.count() << endl;
+
+
+    yijinjing::FramePtr frame;
+    int index = 0;
+    vector<int64_t> all_diff;
+    vector<QTickT> all_tick;
+    while (true) {
+        frame = reader->getNextFrame();
+        if (frame.get() != nullptr)
+        {
+            short msg_type = frame->getMsgType();
+            void* data = frame->getData();
+            index++;
+//            printf("index: %d, msg_type: %d, head address: %p\n", index, msg_type, frame->get_address());
+            if (msg_type == FEEDER_TICK) {
+                QTickT* tick = (QTickT*)data;
+                int64_t recei_time = getNanoTime();
+                int64_t diff = recei_time- tick->write_time;
+                all_diff.push_back(diff);
+
+//                all_tick.push_back(*tick);
+//
+//                std::cout << " code: " << tick->code
+//                          << ", new_price: " << tick->new_price
+//                          << ", new_volume: " << tick->new_volume
+//                          << ", sum_amount: " << tick->sum_amount
+//                          << ", sum_volume: " << tick->sum_volume
+//                          << ", bp: " << tick->bp[0]
+//                          << ", bv: " << tick->bv[0]
+//                          << ", ap: " << tick->ap[0]
+//                          << ", av: " << tick->av[0]
+//                          << ", frame header nano: " << frame->getNano()
+//                          << ", write_time: " << tick->write_time
+//                          << ", recei_time: " << recei_time
+//                          << ", diff: " << diff
+//                          << std::endl;
+
+                if (all_diff.size() == COUNT) {
+                    std::sort(all_diff.begin(), all_diff.end(), [](int64_t a, int64_t b) { return a > b; });
+                    int num = 0;
+                    for (auto &it: all_diff) {
+                        std::cout << "after sort diff: " << it << ", num: " << ++num << std::endl;
+                    }
+                    std::cout << "over" << ", index: " << index << std::endl;
+                    StatisticsTimeSpread(all_diff, 1000);
+
+//                    for (auto &it : all_tick) {
+//                        std::cout << " code: " << it.code
+//                                  << ", new_price: " << it.new_price
+//                                  << ", new_volume: " << it.new_volume
+//                                << ", sum_amount: " << it.sum_amount
+//                                << ", sum_volume: " << it.sum_volume
+//                                << ", bp: " << it.bp[0]
+//                                << ", bv: " << it.bv[0]
+//                                << ", ap: " << it.ap[0]
+//                                << ", av: " << it.av[0]
+//                                << ", write_time: " << it.write_time
+//                                << std::endl;
+//                    }
+                    all_tick.clear();
+
+                    std::cout << " ============================= index:" << index << std::endl;
+                    all_diff.clear();
+                }
+            }
+        }
+    }
 }

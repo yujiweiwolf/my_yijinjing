@@ -97,6 +97,7 @@ inline void Page::passFrame()
 {
     position += frame.next();
     frameNum += 1;
+    // std::cout << __FUNCTION__ << ", position: " << position << ", frameNum: " << frameNum << std::endl;
 }
 
 inline void Page::passWrittenFrame()
