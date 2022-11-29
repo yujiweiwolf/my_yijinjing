@@ -33,21 +33,25 @@
 
 #define TRADE_ORDER_REQ 30001
 #define TRADE_WITHDRAQ_REQ 30002
+#define REQ_QRY_ACCOUT 30003
+#define REQ_QRY_POSITION 30004
+#define REQ_QRY_ORDER 30005
+#define REQ_QRY_KNOCK 30006
 
-#define API_RSP_QRY_ACCOUT 30011
-#define API_RSP_QRY_POSITION 30012
-#define API_RSP_QRY_ORDER 30013
-#define API_RSP_QRY_TRADE 30014
+#define TRADE_ORDER_REP 30101
+#define TRADE_WITHDRAW_REP 30102
+#define REP_QRY_ACCOUT 30103
+#define REP_QRY_POSITION 30104
+#define REP_QRY_ORDER 30105
+#define REP_QRY_KNOCK 30106
 
-#define TRADE_ORDER_REP 30020
-#define TRADE_WITHDRAW_REP 30021
-#define INNER_TRADE_ORDER 30022
-#define INNER_TRADE_KNOCK 30023
+#define TRADE_KNOCK 30201
 
 #define FEEDER_TICK 31001
 #define FEEDER_ORDER 31002
 #define FEEDER_TRADE 31003
 
+// 日志写入共享内存的标志
 #define ONLY_LOG 32001
 
 using namespace std;
@@ -117,7 +121,7 @@ struct QTickT {
     int64_t write_time;
     int64_t receive_time;
 };
-
+// 逐笔委托
 struct QOrderT {
     char code[16];
     int64_t timestamp;
@@ -129,6 +133,7 @@ struct QOrderT {
     int64_t local_time;
 };
 
+// 逐笔成交
 struct QKnockT {
     char code[16];
     int64_t timestamp;
@@ -149,7 +154,7 @@ struct TradeAsset {
     char _id[64]; // 唯一标示：<timestamp>-<fund_id>，timestamp只精确到日期
     int64_t timestamp; // 时间戳，示例：20180728231340100
     int64_t trade_type; // 交易类型：1-现货，2-期货，3-期权
-    char fund_id[16]; // 资金账号
+    char fund_id[64]; // 资金账号
     double balance; // 资金余额
     double usable; // 可用资金
     double margin; // [期货/期权] 保证金
@@ -314,71 +319,53 @@ struct QueryTradeKnockRep {
     TradeKnock item;
 };
 
-// TradeOrderReq 委托请求
-struct TradeOrderReq {
-    char request_id[64]; // 请求编号
-    int64_t request_time; // 请求时间戳，20160121091501001
-    int64_t request_ttl; // 请求生命周期（单位：毫秒）
-    char token[32]; // 访问令牌
-    TradeOrder item; // 必填字段：fund_id,code,bs_flag,oc_flag,volume,price, 选填字段：username,price_type,policy_type,policy_id,tags
+struct TradeOrderMessage {
+    char id[128];
+    int64_t timestamp;
+    int64_t trade_type;
+    char fund_id[64];
+    char fund_name[64];
+    char username[64];
+    char basket_code[64];
+    int64_t basket_volume;
+    int64_t basket_price_type;
+    int64_t basket_size;
+    bool basket_fill;
+    char policy_type[64];
+    char policy_id[64];
+    char tags[64];
+    char labels[64];
+    bool counter;
+    char token[64];
+    TradeOrder item;
+    char error[64];
+    char batch_no[64];
+    int64_t rep_time;
+    int64_t update_time;
+    TradeOrder policy;
+    int64_t traces[5];
+    char node_id[64];
 };
 
-// TradeOrderRep 委托响应
-struct TradeOrderRep {
-    char request_id[64]; // 请求编号
-    char error[64]; // 错误消息，不为空表示所有委托都报单失败
-    char batch_no[64]; // 委托批次号，单笔委托为空
-    char order_no[64]; // 所有委托的合同号列表，与委托一一对应，废单的order_no为空字符串
-    //char errors[256]; // 所有委托的废单原因列表，与委托一一对应，成功委托的error为空字符串
-    char code[16]; // 证券代码
-    int64_t order_ref; // 本地报单编号
-    int64_t strategy_id; // 策略ID
-    int64_t sub_strategy_id; // 子策略ID
-    int64_t local_time;
-};
-
-// TradeWithdrawReq 撤单请求
-struct TradeWithdrawReq {
-    char request_id[64]; // 请求编号
-    char token[32]; // 访问令牌
-    int64_t trade_type; // 交易类型：1-现货，2-期货，3-期权
-    char fund_id[16]; // 资金账号
-    char order_no[64]; // 委托合同号（单笔撤单时有效）
-    char batch_no[64]; // 委托批次号（批量撤单时有效）
-    bool all; // 是否对整个资金账户所有挂单委托进行撤单（账户全撤时有效）
-    int64_t market; // 市场代码
-    int64_t strategy_id; // 策略ID
-    int64_t sub_strategy_id; // 子策略ID
-    int64_t local_time;
-};
-
-// TradeWithdrawRep 撤单响应
-struct TradeWithdrawRep {
-    char request_id[64]; // 请求编号
-    char error[64]; // 错误消息
-    char order_no[64]; // 委托合同号
-    char batch_no[64]; // 委托批次号
-    char msg[64]; // 撤单信息（全撤时返回撤单委托数量等信息）
-    char code[16]; // 证券代码
-    int64_t order_ref; // 本地报单编号
-    int64_t strategy_id; // 策略ID
-    int64_t sub_strategy_id; // 子策略ID
-    int64_t local_time;
+struct TradeWithdrawMessage {
+    char id[128];
+    int64_t timestamp;
+    int64_t trade_type;
+    char fund_id[64];
+    char username[64];
+    char order_no[64];
+    char batch_no[64];
+    bool counter;
+    char token[64];
+    char error[64];
+    int64_t rep_time;
+    std::vector<int64_t> traces;
+    char node_id[64];
 };
 
 struct ErrorMsg {
     int error_id;
     char error_msg[128];
-};
-
-struct RspErrorOrder {
-    TradeOrderReq req;
-    ErrorMsg err;
-};
-
-struct RspErrorWithdraw {
-    TradeWithdrawReq req;
-    ErrorMsg err;
 };
 
 struct InstrumentInfo {
@@ -399,7 +386,7 @@ struct InstrumentInfo {
     }
 
     InstrumentInfo(const char* code, const char* name, int market, int type, int status) : market_(market),
-           type_(type), status_(status){
+                                                                                           type_(type), status_(status){
         strncpy(code_, code, strlen(code));
         strncpy(name_, name, strlen(name));
     }
@@ -410,7 +397,7 @@ struct StrategyID {
     int64_t sub_strategy_id; // 子策略ID
     bool order_rep_flag;    // local_order_ref 的回报
     StrategyID(int64_t strategy_id1, int64_t sub_strategy_id1, bool order_rep) : strategy_id(strategy_id1),
-              sub_strategy_id(sub_strategy_id1), order_rep_flag(order_rep) {
+                                                                                 sub_strategy_id(sub_strategy_id1), order_rep_flag(order_rep) {
         // order_rep_flag = false;
     }
 };
@@ -429,7 +416,6 @@ struct StrategyID {
 //typedef std::shared_ptr<TradeWithdrawRep> TradeWithdrawRepPtr;
 //typedef std::shared_ptr<InstrumentInfo> QStockPtr;
 
-
 struct SpinLock {
     explicit SpinLock(std::atomic_flag& flag) : m_flag(flag) {
         while (m_flag.test_and_set(std::memory_order_acquire)) {
@@ -440,9 +426,55 @@ struct SpinLock {
         m_flag.clear(std::memory_order_release);
     }
 
- private:
+private:
     std::atomic_flag& m_flag;
 };
+
+enum class LogLevel : uint8_t { DEBUG, INFO, WARN, ERROR };
+
+static char const* to_string(LogLevel loglevel)
+{
+    switch (loglevel)
+    {
+        case LogLevel::DEBUG:
+            return "DEBUG";
+        case LogLevel::INFO:
+            return "INFO";
+        case LogLevel::WARN:
+            return "WARN";
+        case LogLevel::ERROR:
+            return "ERROR";
+    }
+    return "INFO";
+}
+
+#define dropfilepath(x) strrchr(x,'/')?strrchr(x,'/')+1:x
+
+#define NANO_LOG(LEVEL) GetBaicInfo(LEVEL, __FILE__, __LINE__)
+#define YIJINJING_DEBUG NANO_LOG(LogLevel::DEBUG)
+#define YIJINJING_INFO NANO_LOG(LogLevel::INFO)
+#define YIJINJING_WARN NANO_LOG(LogLevel::WARN)
+#define YIJINJING_ERROR NANO_LOG(LogLevel::ERROR)
+
+static std::string GetBaicInfo(LogLevel level, const char* file, int line) {
+    //string only_file = file;
+    string only_file = dropfilepath(file);
+    auto now = std::chrono::system_clock::now();
+    uint64_t dis_millseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count()
+                               - std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count() * 1000;
+    time_t tt = std::chrono::system_clock::to_time_t(now);
+    auto time_tm = localtime(&tt);
+    char strTime[256] = { 0 };
+    sprintf(strTime, "[%d-%02d-%02d %02d:%02d:%02d %03d][%s ] %s:%d", time_tm->tm_year + 1900,
+            time_tm->tm_mon + 1, time_tm->tm_mday, time_tm->tm_hour,
+            time_tm->tm_min, time_tm->tm_sec, (int)dis_millseconds, to_string(level), only_file.c_str(), line);
+    return strTime;
+}
+
+//static int64_t GetNowNanoTime() {
+//    std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+//    return now.time_since_epoch().count();
+//}
 
 #endif /* DATATYPE_H */
 

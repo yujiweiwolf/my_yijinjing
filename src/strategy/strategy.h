@@ -11,7 +11,7 @@
 #include "../journal/FrameHeader.h"
 #include "../journal/Frame.hpp"
 #include "../journal/Timer.h"
-#include "../utils/datastruct.h"
+#include "../common/datastruct.h"
 
 using yijinjing::JournalReaderPtr;
 using yijinjing::JournalWriterPtr;
@@ -45,8 +45,8 @@ public:
     virtual void OnRspQueryOrder(QueryTradeOrderRep* rsp) {};
     virtual void OnRspQueryTrade(QueryTradeKnockRep* rsp) {};
 
-    virtual void OnRspOrder(TradeOrderRep* rsp) {};
-    virtual void OnRspWithdraw(TradeWithdrawRep* rsp) {};
+    virtual void OnRspOrder(TradeOrderMessage* rsp) {};
+    virtual void OnRspWithdraw(TradeWithdrawMessage* rsp) {};
     virtual void OnRtnTradeKnock(TradeKnock* rtn) {};
 
 private:

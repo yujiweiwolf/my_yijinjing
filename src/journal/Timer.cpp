@@ -430,8 +430,4 @@ int64_t NanoTimer::getNano() const
             get_time_now().time_since_epoch()
     ).count();
     return _nano + secDiff;
-
-//    std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
-//    // std::chrono::nanoseconds d = now.time_since_epoch();
-//    return now.time_since_epoch().count();
 }

@@ -17,14 +17,6 @@
                   << ", new_volume: " << tick->new_volume << std::endl;
     }
 
-    void TestStrategy::OnLevel2Order(QOrderT* data) {
-
-    }
-
-    void TestStrategy::OnLevel2Knock(QKnockT* data) {
-
-    }
-
     void TestStrategy::OnRspQueryAccout(QueryTradeAssetRep* rsp) {
 
     }
@@ -41,11 +33,11 @@
 
     }
 
-    void TestStrategy::OnRspOrder(TradeOrderRep* rsp) {
+    void TestStrategy::OnRspOrder(TradeOrderMessage* rsp) {
 
     }
 
-    void TestStrategy::OnRspWithdraw(TradeWithdrawRep* rsp) {
+    void TestStrategy::OnRspWithdraw(TradeWithdrawMessage* rsp) {
 
     }
 

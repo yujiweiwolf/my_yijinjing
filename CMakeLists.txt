@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(my_yijinjing)
 
-set(CMAKE_BUILD_TYPE "Release") #Release Debug
+set(CMAKE_BUILD_TYPE "Debug") #Release Debug
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -DOS_IS_LINUX")
 add_compile_options(-std=c++17 -Wall -O2)
 
@@ -40,7 +40,7 @@ SET(TEST_STRATEGY "test_strategy")
 add_library(${BROKER_LIBRARY} ${LIB_LIST})
 add_library(${STRATEGY_LIBRARY} ${STRATEGY_LIST})
 
-add_executable(${WRITEER} src/test/pressure_writer.cpp)
+add_executable(${WRITEER} src/test/writer.cpp)  # pressure_writer.cpp writer.cpp
 target_link_libraries(${WRITEER}
         ${BROKER_LIBRARY} boost_date_time boost_filesystem boost_regex boost_system  boost_chrono boost_log boost_program_options boost_thread boost_iostreams z protobuf protobuf-lite sodium zmq ssl crypto iconv pthread dl)
 
@@ -58,3 +58,8 @@ target_link_libraries(${TEST_STRATEGY}
 #
 #FILE(WRITE ${CMAKE_CURRENT_BINARY_DIR}/image.sh "n=$1; v=`./$n -v`; ldd $n | grep /sys/lib/ | awk '{print $3}' | xargs -i cp -L -n {} .; docker build -t $n:$v .; rm -rf \${n}_$v.docker.tar.gz; docker save $n:$v > \${n}_$v.docker.tar && gzip \${n}_$v.docker.tar")
 #add_custom_target(image COMMAND sh image.sh reader DEPENDS reader)
+
+set(CMAKE_INSTALL_PREFIX /home/work/sys/lib/libyijinjing)
+install(DIRECTORY src/journal DESTINATION include FILES_MATCHING PATTERN "journal/*.h" PATTERN "journal/*.hpp")
+install(DIRECTORY src/utils DESTINATION include FILES_MATCHING PATTERN "utils/*.h" PATTERN "utils/*.hpp")
+install(TARGETS journal LIBRARY DESTINATION lib)

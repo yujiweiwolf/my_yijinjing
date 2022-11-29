@@ -28,15 +28,14 @@ public:
 
     virtual void OnInit();
     virtual void OnTick(QTickT* data);
-    virtual void OnLevel2Order(QOrderT* data);
-    virtual void OnLevel2Knock(QKnockT* data);
 
     virtual void OnRspQueryAccout(QueryTradeAssetRep* rsp);
     virtual void OnRspQueryPosition(QueryTradePositionRep* rsp);
     virtual void OnRspQueryOrder(QueryTradeOrderRep* rsp);
     virtual void OnRspQueryTrade(QueryTradeKnockRep* rsp);
-    virtual void OnRspOrder(TradeOrderRep* rsp);
-    virtual void OnRspWithdraw(TradeWithdrawRep* rsp);
+
+    virtual void OnRspOrder(TradeOrderMessage* rsp);
+    virtual void OnRspWithdraw(TradeWithdrawMessage* rsp);
     virtual void OnRtnTradeKnock(TradeKnock* rtn);
 };
 

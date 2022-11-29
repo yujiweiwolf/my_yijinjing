@@ -78,24 +78,28 @@ void Strategy::ProcessMessage(yijinjing::FramePtr frame) {
                           << ", bs_flag: " << order->bs_flag << std::endl;
                 break;
             }
-            case API_RSP_QRY_ACCOUT: {
+            case REP_QRY_ACCOUT: {
                 OnRspQueryAccout((QueryTradeAssetRep*)data);
                 break;
             }
-            case API_RSP_QRY_POSITION: {
+            case REP_QRY_POSITION: {
                 OnRspQueryPosition((QueryTradePositionRep*)data);
                 break;
             }
-            case API_RSP_QRY_TRADE: {
+            case REP_QRY_KNOCK: {
                 OnRspQueryTrade((QueryTradeKnockRep*)data);
                 break;
             }
             case TRADE_ORDER_REP: {
-                OnRspOrder((TradeOrderRep*)data);
+                OnRspOrder((TradeOrderMessage*)data);
                 break;
             }
             case TRADE_WITHDRAW_REP: {
-                OnRspWithdraw((TradeWithdrawRep*)data);
+                OnRspWithdraw((TradeWithdrawMessage*)data);
+                break;
+            }
+            case TRADE_KNOCK: {
+                OnRtnTradeKnock((TradeKnock*)data);
                 break;
             }
             default:
