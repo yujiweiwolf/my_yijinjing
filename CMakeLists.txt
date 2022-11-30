@@ -62,4 +62,5 @@ target_link_libraries(${TEST_STRATEGY}
 set(CMAKE_INSTALL_PREFIX /home/work/sys/lib/libyijinjing)
 install(DIRECTORY src/journal DESTINATION include FILES_MATCHING PATTERN "journal/*.h" PATTERN "journal/*.hpp")
 install(DIRECTORY src/utils DESTINATION include FILES_MATCHING PATTERN "utils/*.h" PATTERN "utils/*.hpp")
+install(DIRECTORY src/common DESTINATION include FILES_MATCHING PATTERN "common/*.h" PATTERN "common/*.hpp")
 install(TARGETS journal LIBRARY DESTINATION lib)

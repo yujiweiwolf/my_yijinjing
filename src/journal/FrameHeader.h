@@ -37,22 +37,22 @@ YJJ_NAMESPACE_START
 
 // data types of all fields in frame header
 // which need to be fully controlled for data length.
-typedef byte    FH_TYPE_STATUS;
+typedef uchar    FH_TYPE_STATUS;
 typedef int64_t    FH_TYPE_NANOTM;
 typedef int     FH_TYPE_LENGTH;
 typedef uint    FH_TYPE_HASHNM;
 typedef short   FH_TYPE_MSG_TP;
-typedef byte    FH_TYPE_LASTFG;
+typedef uchar    FH_TYPE_LASTFG;
 
 //////////////////////////////////////////
-/// (byte) JournalFrameStatus
+/// (uchar) JournalFrameStatus
 //////////////////////////////////////////
 #define JOURNAL_FRAME_STATUS_RAW        0
 #define JOURNAL_FRAME_STATUS_WRITTEN    1
 #define JOURNAL_FRAME_STATUS_PAGE_END   2
 
 //////////////////////////////////////////
-/// (byte) JournalFrameLastFlag
+/// (uchar) JournalFrameLastFlag
 //////////////////////////////////////////
 #define JOURNAL_FRAME_NOT_LAST          0 /**< false */
 #define JOURNAL_FRAME_IS_LAST           1 /**< true */

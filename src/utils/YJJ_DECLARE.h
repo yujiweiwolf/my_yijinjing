@@ -38,7 +38,7 @@ using std::map;    /**< default using map */
 template<class Key, class T>
 using umap = std::unordered_map<Key, T>; /** unordered_map usage, will merge more */
 
-typedef unsigned char byte;
+typedef unsigned char uchar;
 typedef unsigned int uint;
 
 

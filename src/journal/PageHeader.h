@@ -39,7 +39,7 @@ YJJ_NAMESPACE_START
 struct PageHeader
 {
     /** JournalPageStatus */
-    byte    status;
+    uchar    status;
     /** journal name */
     char    journal_name[JOURNAL_SHORT_NAME_MAX_LENGTH];
     /** number of this page in journal */

@@ -33,7 +33,7 @@ YJJ_NAMESPACE_START
 #define SOCKET_ERROR_MAX_LENGTH         100 /**< max length of error msg for socket */
 
 //////////////////////////////////////////
-/// (byte) PagedSocketTypeConstants
+/// (uchar) PagedSocketTypeConstants
 //////////////////////////////////////////
 // test 0~9
 #define PAGED_SOCKET_CONNECTION_TEST    0  /**< test connection, return "hello world!" */
@@ -54,7 +54,7 @@ YJJ_NAMESPACE_START
 struct PagedSocketRequest
 {
     /** PagedSocketTypeConstants */
-    byte    type;
+    uchar    type;
     /** name utilized for CLIENT / JOURNAL / STRATEGY */
     char    name[JOURNAL_SHORT_NAME_MAX_LENGTH];
     /** process id (only utilized when registering client) */
@@ -74,7 +74,7 @@ struct PagedSocketRequest
 struct PagedSocketResponse
 {
     /** PagedSocketTypeConstants */
-    byte    type;
+    uchar    type;
     /** return true if success */
     bool    success;
     /** error message if failure '\0' if success. */
