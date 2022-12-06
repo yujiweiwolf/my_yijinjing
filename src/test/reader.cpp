@@ -81,7 +81,7 @@ int main(){
                           << ", av: " << tick->av[0]
                           << std::endl;
             } else if (msg_type == TRADE_ORDER_REQ) {
-                TradeOrder *order = (TradeOrder *) data;
+                OrderParam *order = (OrderParam *) data;
                 std::cout << " code: " << order->code
                           << ", price: " << order->price
                           << ", volume: " << order->volume

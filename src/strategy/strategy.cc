@@ -62,16 +62,8 @@ void Strategy::ProcessMessage(yijinjing::FramePtr frame) {
                 }
                 break;
             }
-//            case FEEDER_ORDER: {
-//                // OnLevel2Order((QOrderT*)data);
-//                break;
-//            }
-//            case FEEDER_TRADE: {
-//                // OnLevel2Knock((QKnockT*)data);
-//                break;
-//            }
             case TRADE_ORDER_REQ: {
-                TradeOrder *order = (TradeOrder *) data;
+                OrderParam *order = (OrderParam *) data;
                 std::cout << " code: " << order->code
                           << ", price: " << order->price
                           << ", volume: " << order->volume

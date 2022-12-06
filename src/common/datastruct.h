@@ -62,8 +62,8 @@ struct QTickT {
     int8_t src;
     int8_t dtype;
     int64_t timestamp;
-    char code[16];
-    char name[16];
+    char code[32];
+    char name[32];
     int8_t market;
     double pre_close;
     double upper_limit;
@@ -123,7 +123,7 @@ struct QTickT {
 };
 // 逐笔委托
 struct QOrderT {
-    char code[16];
+    char code[32];
     int64_t timestamp;
     int64_t order_no;
     int8_t bs_flag;
@@ -135,7 +135,7 @@ struct QOrderT {
 
 // 逐笔成交
 struct QKnockT {
-    char code[16];
+    char code[32];
     int64_t timestamp;
     int64_t match_no;
     int8_t bs_flag;
@@ -171,8 +171,8 @@ struct TradePosition {
     char fund_id[16]; // 资金账号
     int64_t hedge_flag; // [期货] 套保标记：1-投机，2-套利，3-套保
     int64_t market; // 市场代码：0-未知，1-上海，2-深圳，3-上海B，4-深圳B，5-中金所，6-上期所，7-大商所，8-郑商所，9-特转A，10-特转B，11-三板
-    char code[16]; // 证券代码
-    char name[16]; // 证券名称
+    char code[32]; // 证券代码
+    char name[32]; // 证券名称
     int64_t buy_volume; // 买入数量
     double buy_market_value; // 买入市值
     int64_t buy_can_close; // 买入可平仓数量
@@ -184,8 +184,8 @@ struct TradePosition {
     bool islast; //是否最后一条
 };
 
-// TradeOrder 交易委托
-struct TradeOrder {
+// OrderParam 交易委托
+struct OrderParam {
     char _id[64]; // 唯一标示：<timestamp>-<fund_id>-<inner_order_no>
     int64_t timestamp; // 时间戳，示例：20180728231340100
     int64_t trade_type; // 交易类型：1-现货，2-期货，3-期权
@@ -195,8 +195,8 @@ struct TradeOrder {
     char order_no[64]; // 委托合同号
     char batch_no[64]; // 批次号
     int64_t market; // 市场代码：0-未知，1-上海，2-深圳，3-上海B，4-深圳B，5-中金所，6-上期所，7-大商所，8-郑商所，9-特转A，10-特转B，11-三板
-    char code[16]; // 证券代码
-    char name[16]; // 证券名称
+    char code[32]; // 证券代码
+    char name[32]; // 证券名称
     int64_t hedge_flag; // [期货] 套保标记：1-投机, 2-套利, 3-套保
     int64_t bs_flag; // 买卖方向，1-买, 2-卖, 3-申购, 4-赎回
     int64_t oc_flag; // [期货/期权] 开平仓标记，1：开仓，2：平仓
@@ -230,8 +230,8 @@ struct TradeKnock {
     char inner_match_no[32]; // 内部成交合同号（唯一标示）
     char match_no[32]; // 成交合同号
     int64_t market; // 市场代码：0-未知，1-上海，2-深圳，3-上海B，4-深圳B，5-中金所，6-上期所，7-大商所，8-郑商所，9-特转A，10-特转B，11-三板
-    char code[16]; // 证券代码
-    char name[16]; // 证券名称
+    char code[32]; // 证券代码
+    char name[32]; // 证券名称
     char order_no[64]; // 委托合同号
     char batch_no[32]; // 批次号
     int64_t hedge_flag; // [期货] 套保标记：1-投机，2-套利，3-套保
@@ -283,24 +283,6 @@ struct QueryTradePositionRep {
     TradePosition item;
 };
 
-// QueryTradeOrderReq 查询委托请求
-struct QueryTradeOrderReq {
-    char request_id[64]; // 请求编号
-    int64_t request_time; // 请求时间戳，20160121091501001
-    int64_t request_ttl; // 请求生命周期（单位：毫秒）
-    int64_t trade_type; // 交易类型：1-现货，2-期货，3-期权
-    char fund_id[16]; // 资金账号
-    char cursor[32]; // 查询游标
-};
-
-// QueryTradeOrderRep 查询委托响应
-struct QueryTradeOrderRep {
-    char request_id[64]; // 请求编号
-    char error[64]; // 错误消息
-    char next_cursor[32]; // 后续数据的游标地址，为空表示查询结束
-    TradeOrder item;
-};
-
 // QueryTradeKnockReq 查询成交请求
 struct QueryTradeKnockReq {
     char request_id[64]; // 请求编号
@@ -337,12 +319,12 @@ struct TradeOrderMessage {
     char labels[64];
     bool counter;
     char token[64];
-    TradeOrder item;
+    OrderParam item;
     char error[64];
     char batch_no[64];
     int64_t rep_time;
     int64_t update_time;
-    TradeOrder policy;
+    OrderParam policy;
     int64_t traces[5];
     char node_id[64];
 };

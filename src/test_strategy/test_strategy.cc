@@ -25,10 +25,6 @@
 
     }
 
-    void TestStrategy::OnRspQueryOrder(QueryTradeOrderRep* rsp) {
-
-    }
-
     void TestStrategy::OnRspQueryTrade(QueryTradeKnockRep* rsp) {
 
     }

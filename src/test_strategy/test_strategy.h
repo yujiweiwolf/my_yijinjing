@@ -31,7 +31,6 @@ public:
 
     virtual void OnRspQueryAccout(QueryTradeAssetRep* rsp);
     virtual void OnRspQueryPosition(QueryTradePositionRep* rsp);
-    virtual void OnRspQueryOrder(QueryTradeOrderRep* rsp);
     virtual void OnRspQueryTrade(QueryTradeKnockRep* rsp);
 
     virtual void OnRspOrder(TradeOrderMessage* rsp);
