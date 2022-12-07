@@ -23,7 +23,7 @@ void Test_Write_Memcpy(int interval) {
     QTickT tick;
     int tick_length = sizeof(tick);
 
-    OrderParam order;
+    TradeOrder order;
     int order_length = sizeof(order);
     for(int j = 1; j <= count; ++j) {
         if (j % 2 == 0) {

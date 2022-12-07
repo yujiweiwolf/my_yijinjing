@@ -58,6 +58,7 @@ using namespace std;
 using namespace boost::gregorian;
 
 // ------------------------------------------行情--------------------------------------//
+namespace yijinjing {
 struct QTickT {
     int8_t src;
     int8_t dtype;
@@ -184,8 +185,8 @@ struct TradePosition {
     bool islast; //是否最后一条
 };
 
-// OrderParam 交易委托
-struct OrderParam {
+// TradeOrder 交易委托
+struct TradeOrder {
     char _id[64]; // 唯一标示：<timestamp>-<fund_id>-<inner_order_no>
     int64_t timestamp; // 时间戳，示例：20180728231340100
     int64_t trade_type; // 交易类型：1-现货，2-期货，3-期权
@@ -319,13 +320,13 @@ struct TradeOrderMessage {
     char labels[64];
     bool counter;
     char token[64];
-    OrderParam item;
-    char error[64];
+    TradeOrder item;
+    char error[128];
     char batch_no[64];
     int64_t rep_time;
     int64_t update_time;
-    OrderParam policy;
-    int64_t traces[5];
+    TradeOrder policy;
+    int64_t traces[3];
     char node_id[64];
 };
 
@@ -339,9 +340,9 @@ struct TradeWithdrawMessage {
     char batch_no[64];
     bool counter;
     char token[64];
-    char error[64];
+    char error[128];
     int64_t rep_time;
-    std::vector<int64_t> traces;
+    int64_t traces[3];
     char node_id[64];
 };
 
@@ -457,6 +458,6 @@ static std::string GetBaicInfo(LogLevel level, const char* file, int line) {
 //    std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
 //    return now.time_since_epoch().count();
 //}
-
+}  // namespace yjj
 #endif /* DATATYPE_H */
 

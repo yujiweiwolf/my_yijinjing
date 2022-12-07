@@ -63,7 +63,7 @@ void Strategy::ProcessMessage(yijinjing::FramePtr frame) {
                 break;
             }
             case TRADE_ORDER_REQ: {
-                OrderParam *order = (OrderParam *) data;
+                TradeOrder *order = (TradeOrder *) data;
                 std::cout << " code: " << order->code
                           << ", price: " << order->price
                           << ", volume: " << order->volume
