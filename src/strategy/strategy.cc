@@ -30,6 +30,10 @@ void Strategy::SubInstrument(std::vector<std::string>& codes) {
         }
 }
 
+JournalWriterPtr Strategy::GetJournalWriter() {
+    return writer_;
+}
+
 void Strategy::StartWork() {
     thread_ = std::make_shared<std::thread>(std::bind(&Strategy::Run, this));
     thread_->detach();

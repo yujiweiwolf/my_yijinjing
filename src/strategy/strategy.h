@@ -34,6 +34,7 @@ public:
     void SubInstrument(std::vector<std::string>& codes);
     void AddReadFile(const string& dir, const string file);
     void AddWriteFile(const string& dir, const string file);
+    JournalWriterPtr GetJournalWriter();
 
     virtual void OnInit() {};
     virtual void OnTick(QTickT* data) {};

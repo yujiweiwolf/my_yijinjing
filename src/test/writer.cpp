@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string.h>
 #include <math.h>
-#include "x/x.h"
+// #include "x/x.h"
 #include "../journal/Timer.h"
 #include "../journal/JournalWriter.h"
 #include "../common/datastruct.h"
@@ -67,9 +67,9 @@ void Test_Write_Memcpy(int interval) {
         }
 
         if (interval > 0 && j % interval == 0) {
-            x::Sleep(1);
+            // x::Sleep(1);
         }
-        x::Sleep(1000);
+        // x::Sleep(1000);
     }
 }
 
@@ -139,6 +139,6 @@ int main(int argc, char *argv[]){
             //sprintf(log_data, "%s------%d", YIJINJING_ERROR.c_str(), j);
             //trade_writer_->write_frame(log_data, strlen(log_data), ONLY_LOG, 0);
         }
-        x::Sleep(100);
+        // x::Sleep(100);
     }
 }
