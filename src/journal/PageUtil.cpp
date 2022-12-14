@@ -244,7 +244,7 @@ void* PageUtil::LoadPageBuffer(const string& path, int size, bool isWriting, boo
 
 void PageUtil::ReleasePageBuffer(void *buffer, int size, bool quickMode)
 {
-#ifdef _WINDOWS
+#ifdef _MSC_VER
     UnmapViewOfFile(buffer);
 #else
     //unlock and unmap
@@ -264,7 +264,7 @@ void PageUtil::ReleasePageBuffer(void *buffer, int size, bool quickMode)
 
 bool PageUtil::FileExists(const string& filename)
 {
-#ifdef _WINDOWS
+#ifdef _MSC_VER
     HANDLE dumpFileDescriptor = CreateFileA(filename.c_str(),
         GENERIC_READ,
         FILE_SHARE_READ | FILE_SHARE_WRITE,

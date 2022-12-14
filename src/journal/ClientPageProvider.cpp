@@ -40,7 +40,7 @@ void getSocketRsp(SocketMArray &input, SocketMArray &output)
     using namespace boost::asio;
     io_service io_service;
 
-#ifdef _WINDOWS
+#ifdef _MSC_VER
     ip::tcp::socket socket(io_service);
     socket.connect(ip::tcp::endpoint(ip::address_v4::from_string("127.0.0.1"),PAGED_SOCKET_PORT));
 #else
@@ -73,7 +73,7 @@ void PageProvider::register_client()
     PagedSocketRequest req = {};
     req.type = is_writer ? PAGED_SOCKET_WRITER_REGISTER : PAGED_SOCKET_READER_REGISTER;
 
-#ifdef _WINDOWS
+#ifdef _MSC_VER
     req.pid = _getpid();
 #else
     req.pid = getpid();

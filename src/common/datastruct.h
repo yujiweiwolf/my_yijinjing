@@ -413,7 +413,7 @@ private:
     std::atomic_flag& m_flag;
 };
 
-enum class LogLevel : uint8_t { DEBUG, INFO, WARN, ERROR };
+enum class LogLevel : uint8_t { DEBUG, INFO, WARN, _ERROR };
 
 static char const* to_string(LogLevel loglevel)
 {
@@ -425,7 +425,7 @@ static char const* to_string(LogLevel loglevel)
             return "INFO";
         case LogLevel::WARN:
             return "WARN";
-        case LogLevel::ERROR:
+        case LogLevel::_ERROR:
             return "ERROR";
     }
     return "INFO";

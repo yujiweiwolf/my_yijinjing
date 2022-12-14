@@ -1,10 +1,10 @@
 *
 !*/
+.*
 !.gitignore
 !*.h
 !*.c
 !*.cc
-!*.cpp
 !*.sln
 !*.vcxproj
 !*.vcxproj.filters
@@ -19,6 +19,7 @@
 
 !Makefile*
 !Dockerfile*
+!CMakeLists.txt
 
 !lib/**/*.dll
 !lib/**/*.lib
@@ -29,6 +30,5 @@
 .idea/
 build/
 image.sh
-lib/maCliApi_Patch3.7/
 cmake_debug/
 cmake-build-debug/

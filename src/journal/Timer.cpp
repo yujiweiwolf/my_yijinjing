@@ -387,7 +387,7 @@ inline int64_t get_socket_diff()
     std::array<char, SOCKET_MESSAGE_MAX_LENGTH> input, output;
     io_service io_service;
 
-#ifdef _WINDOWS
+#ifdef _MSC_VER
     ip::tcp::socket socket(io_service);
     socket.connect(ip::tcp::endpoint(ip::tcp::v4(), PAGED_SOCKET_PORT));
 #else

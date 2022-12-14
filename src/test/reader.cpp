@@ -3,8 +3,6 @@
 #include <fstream>
 #include <string.h>
 #include <math.h>
-#include <sched.h>
-#include <unistd.h>
 #include <algorithm>
 #include "../journal/Timer.h"
 #include "../journal/JournalReader.h"
@@ -13,7 +11,7 @@
 using yijinjing::JournalReaderPtr;
 using namespace yijinjing;
 
-#define KUNGFU_JOURNAL_FOLDER "./data/"  /**< where we put journal files */
+#define KUNGFU_JOURNAL_FOLDER "../data"  /**< where we put journal files */
 #define COUNT 10000
 
 bool cpu_set_affinity(int cpu_id){
@@ -51,7 +49,7 @@ int main(){
     JournalReaderPtr reader = yijinjing::JournalReader::create(KUNGFU_JOURNAL_FOLDER, "feeder", yijinjing::TIME_FROM_FIRST, "Client_R");
 
     reader->addJournal(KUNGFU_JOURNAL_FOLDER, "trade");
-    bool flag = reader->seekTimeJournalByName("trade", yijinjing::TIME_FROM_FIRST);
+    // bool flag = reader->seekTimeJournalByName("trade", yijinjing::TIME_FROM_FIRST);
     yijinjing::FramePtr frame;
     int index = 0;
     while (true) {
@@ -94,7 +92,7 @@ int main(){
     return 0;
 
 
-// åŽ‹åŠ›æµ‹è¯•çš„ç»Ÿè®¡
+// Ñ¹Á¦²âÊÔµÄÍ³¼Æ
     {
         yijinjing::FramePtr frame;
         int index = 0;

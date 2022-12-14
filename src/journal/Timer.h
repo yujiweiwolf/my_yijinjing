@@ -23,7 +23,7 @@
 #ifndef YIJINJING_TIMER_H
 #define YIJINJING_TIMER_H
 
-#ifdef _WINDOWS
+#ifdef _MSC_VER
 #include <ctime>
 #include <ctype.h>
 #include <string.h>
@@ -135,7 +135,7 @@ inline int64_t getSecDiff()
  */
 inline int64_t parseTm(struct tm _tm)
 {
-#ifdef _WINDOWS
+#ifdef _MSC_VER
     return mktime(&_tm) * NANOSECONDS_PER_SECOND;
 #else
     return timelocal(&_tm) * NANOSECONDS_PER_SECOND;

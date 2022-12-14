@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="journal">
+      <UniqueIdentifier>{674177b7-8b45-4678-9a35-cd81f70f5c65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{26b3576f-6f5f-47bb-84a8-e5623cdfc5dc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\journal\ClientPageProvider.cpp">
+      <Filter>journal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\journal\Journal.cpp">
+      <Filter>journal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\journal\JournalHandler.cpp">
+      <Filter>journal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\journal\JournalReader.cpp">
+      <Filter>journal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\journal\JournalWriter.cpp">
+      <Filter>journal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\journal\LocalPageProvider.cpp">
+      <Filter>journal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\journal\Page.cpp">
+      <Filter>journal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\journal\PageUtil.cpp">
+      <Filter>journal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\journal\Timer.cpp">
+      <Filter>journal</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\journal\Frame.hpp">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\FrameHeader.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\IJournalVisitor.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\Journal.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\JournalHandler.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\JournalReader.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\JournalWriter.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\Page.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\PageCommStruct.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\PageHeader.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\PageProvider.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\PageSocketStruct.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\PageUtil.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\journal\Timer.h">
+      <Filter>journal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\constants.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\Hash.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\json.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\YJJ_DECLARE.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
