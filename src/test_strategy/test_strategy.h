@@ -21,20 +21,27 @@
 
 // 一个reader, 读feeder 与 broker
 // 一个writer, 写broker
-class TestStrategy : public Strategy {
-public:
-    TestStrategy();
-    virtual ~TestStrategy();
+namespace yijinjing {
+    class TestStrategy : public Strategy {
+    public:
+        TestStrategy();
 
-    virtual void OnInit();
-    virtual void OnTick(QTickT* data);
+        virtual ~TestStrategy();
 
-    virtual void OnRspQueryAccout(QueryTradeAssetRep* rsp);
-    virtual void OnRspQueryPosition(QueryTradePositionRep* rsp);
-    virtual void OnRspQueryTrade(QueryTradeKnockRep* rsp);
+        virtual void OnInit();
 
-    virtual void OnRspOrder(TradeOrderMessage* rsp);
-    virtual void OnRspWithdraw(TradeWithdrawMessage* rsp);
-    virtual void OnRtnTradeKnock(TradeKnock* rtn);
-};
+        virtual void OnTick(QTickT *data);
 
+        virtual void OnRspQueryAccout(QueryTradeAssetRep *rsp);
+
+        virtual void OnRspQueryPosition(QueryTradePositionRep *rsp);
+
+        virtual void OnRspQueryTrade(QueryTradeKnockRep *rsp);
+
+        virtual void OnRspOrder(TradeOrderMessage *rsp);
+
+        virtual void OnRspWithdraw(TradeWithdrawMessage *rsp);
+
+        virtual void OnRtnTradeKnock(TradeKnock *rtn);
+    };
+}

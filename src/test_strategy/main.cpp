@@ -10,7 +10,7 @@
 #include "test_strategy.h"
 
 int main(){
-    TestStrategy test;
+    yijinjing::TestStrategy test;
     test.SetStragety("test_stratey", 99);
 
 //    std::vector<std::string> sub_codes;
