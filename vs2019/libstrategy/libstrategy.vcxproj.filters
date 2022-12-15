@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="base_strategy">
+      <UniqueIdentifier>{ff9a22f6-a933-4bd6-88c7-240ba6e504bb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\strategy\strategy.cc">
+      <Filter>base_strategy</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\strategy\strategy.h">
+      <Filter>base_strategy</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
