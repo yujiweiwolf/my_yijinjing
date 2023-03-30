@@ -42,22 +42,16 @@ add_library(${STRATEGY_LIBRARY} ${STRATEGY_LIST})
 
 add_executable(${WRITEER} src/test/writer.cpp)  # pressure_writer.cpp writer.cpp
 target_link_libraries(${WRITEER}
-        ${BROKER_LIBRARY} boost_date_time boost_filesystem boost_regex boost_system  boost_chrono boost_log boost_program_options boost_thread boost_iostreams z protobuf protobuf-lite sodium zmq ssl crypto iconv pthread dl)
+        ${BROKER_LIBRARY} boost_date_time boost_filesystem boost_regex boost_system  boost_chrono boost_log boost_program_options boost_thread boost_iostreams pthread)
 
 
 add_executable(${READER} src/test/reader.cpp)
 target_link_libraries(${READER}
-        ${BROKER_LIBRARY} boost_date_time boost_filesystem boost_regex boost_system  boost_chrono boost_log boost_program_options boost_thread boost_iostreams z protobuf protobuf-lite sodium zmq ssl crypto iconv pthread dl)
+        ${BROKER_LIBRARY} boost_date_time boost_filesystem boost_regex boost_system  boost_chrono boost_log boost_program_options boost_thread boost_iostreams pthread)
 
 add_executable(${TEST_STRATEGY} src/test_strategy/main.cpp src/test_strategy/test_strategy.cc)
 target_link_libraries(${TEST_STRATEGY}
-        ${STRATEGY_LIBRARY} ${BROKER_LIBRARY} boost_date_time boost_filesystem boost_regex boost_system  boost_chrono boost_log boost_program_options boost_thread boost_iostreams z protobuf protobuf-lite sodium zmq ssl crypto iconv pthread dl)
-
-
-#FILE(COPY Dockerfile image.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-#
-#FILE(WRITE ${CMAKE_CURRENT_BINARY_DIR}/image.sh "n=$1; v=`./$n -v`; ldd $n | grep /sys/lib/ | awk '{print $3}' | xargs -i cp -L -n {} .; docker build -t $n:$v .; rm -rf \${n}_$v.docker.tar.gz; docker save $n:$v > \${n}_$v.docker.tar && gzip \${n}_$v.docker.tar")
-#add_custom_target(image COMMAND sh image.sh reader DEPENDS reader)
+        ${STRATEGY_LIBRARY} ${BROKER_LIBRARY} boost_date_time boost_filesystem boost_regex boost_system  boost_chrono boost_log boost_program_options boost_thread boost_iostreams pthread)
 
 set(CMAKE_INSTALL_PREFIX /home/work/sys/lib/libyijinjing)
 install(DIRECTORY src/journal DESTINATION include FILES_MATCHING PATTERN "journal/*.h" PATTERN "journal/*.hpp")
