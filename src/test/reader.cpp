@@ -49,7 +49,7 @@ int main(){
     JournalReaderPtr reader = yijinjing::JournalReader::create(KUNGFU_JOURNAL_FOLDER, "feeder", yijinjing::TIME_FROM_FIRST, "Client_R");
 
     reader->addJournal(KUNGFU_JOURNAL_FOLDER, "trade");
-    // bool flag = reader->seekTimeJournalByName("trade", yijinjing::TIME_FROM_FIRST);
+    bool flag = reader->seekTimeJournalByName("trade", yijinjing::TIME_TO_LAST);
     yijinjing::FramePtr frame;
     int index = 0;
     while (true) {
@@ -68,7 +68,7 @@ int main(){
                     << std::endl;
             if (msg_type == FEEDER_TICK) {
                 QTickT *tick = (QTickT *) data;
-                std::cout << " code: " << tick->code
+                std::cout << "QTickT, code: " << tick->code
                           << ", new_price: " << tick->new_price
                           << ", new_volume: " << tick->new_volume
                           << ", sum_amount: " << tick->sum_amount
@@ -80,7 +80,7 @@ int main(){
                           << std::endl;
             } else if (msg_type == TRADE_ORDER_REQ) {
                 TradeOrder *order = (TradeOrder *) data;
-                std::cout << " code: " << order->code
+                std::cout << "Order, code: " << order->code
                           << ", price: " << order->price
                           << ", volume: " << order->volume
                           << ", bs_flag: " << order->bs_flag << std::endl;

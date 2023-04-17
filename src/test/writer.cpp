@@ -12,7 +12,7 @@ using namespace yijinjing;
 const string kVersion = "v1.0.1";
 
 #define KUNGFU_JOURNAL_FOLDER "../data"  /**< where we put journal files */
-#define COUNT 10000
+#define COUNT 100000
 
 void Test_Write_Memcpy(int interval) {
     JournalWriterPtr trade_writer_ = yijinjing::JournalWriter::create(KUNGFU_JOURNAL_FOLDER, "trade", "Client");
@@ -86,12 +86,8 @@ int main(int argc, char *argv[]){
 
     for(int j = 1; j <= count; ++j) {
         if (j % 2 == 0) {
-            void* buffer = feeder_writer_->GetFrame();
-            int64_t nano = getNanoTime();
-            Frame frame(buffer);
-            frame.setNano(nano);
-
-            QTickT* tick = (QTickT*)((char*)buffer + BASIC_FRAME_HEADER_LENGTH);
+            Frame frame = feeder_writer_->locateFrame();
+            QTickT* tick = (QTickT*)(frame.getData());
             tick->receive_time = getNanoTime();
             sprintf(tick->code, "%06d.SH", j);
             tick->new_price = j * 1.0;
@@ -119,12 +115,8 @@ int main(int argc, char *argv[]){
             tick->write_time = getNanoTime();
             feeder_writer_->passFrame(frame, sizeof(QTickT), FEEDER_TICK, 0);
         } else {
-            void* buffer = trade_writer_->GetFrame();
-            int64_t nano = getNanoTime();
-            Frame frame(buffer);
-            frame.setNano(nano);
-
-            TradeOrder* order = (TradeOrder*)((char*)buffer + BASIC_FRAME_HEADER_LENGTH);
+            Frame frame = trade_writer_->locateFrame();
+            TradeOrder* order = (TradeOrder*)(frame.getData());
             order->receive_time = getNanoTime();
             sprintf(order->code, "%06d.SH", j);
             order->volume = j * 100;
@@ -135,9 +127,9 @@ int main(int argc, char *argv[]){
             order->write_time = getNanoTime();
             trade_writer_->passFrame(frame, sizeof(TradeOrder), TRADE_ORDER_REQ, 0);
 
-            //char log_data[512] = "";
-            //sprintf(log_data, "%s------%d", YIJINJING_ERROR.c_str(), j);
-            //trade_writer_->write_frame(log_data, strlen(log_data), ONLY_LOG, 0);
+            char log_data[512] = "";
+            sprintf(log_data, "%s------%d", yijinjing::YIJINJING_ERROR.c_str(), j);
+            trade_writer_->write_frame(log_data, strlen(log_data), ONLY_LOG, 0);
         }
         // x::Sleep(100);
     }

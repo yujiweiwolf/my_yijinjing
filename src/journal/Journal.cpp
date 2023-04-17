@@ -72,7 +72,7 @@ bool Journal::seekTime(int64_t time)
 void Journal::loadNextPage()
 {
     expired = false;
-    std::cout << __FUNCTION__  << std::endl;
+//    std::cout << __FUNCTION__  << std::endl;
     if (expired)
         return;
 

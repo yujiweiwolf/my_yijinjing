@@ -45,8 +45,8 @@ PagePtr Page::load(const string &dir, const string &jname, short pageNum, bool i
         boost::filesystem::create_directories(dir);
         std::cout << "create dir: " << dir << std::endl;
     }
-    const string path = PageUtil::GenPageFullPath(dir, jname, pageNum);
-    void* buffer = PageUtil::LoadPageBuffer(path, JOURNAL_PAGE_SIZE, isWriting, quickMode /*from local then we need to do mlock manually*/);
+    const string file_name = PageUtil::GenPageFullPath(dir, jname, pageNum);
+    void* buffer = PageUtil::LoadPageBuffer(file_name, JOURNAL_PAGE_SIZE, isWriting, quickMode /*from local then we need to do mlock manually*/);
     if (buffer == nullptr)
         return PagePtr();
 

@@ -138,12 +138,6 @@ PageHeader PageUtil::GetPageHeader(const string &dir, const string &jname, short
 
 void* PageUtil::LoadPageBuffer(const string& path, int size, bool isWriting, bool quickMode)
 {
-    isWriting = true;
-    boost::filesystem::path page_path = path;
-    boost::filesystem::path page_folder_path = page_path.parent_path();
-    if(!boost::filesystem::exists(page_folder_path)) {
-        boost::filesystem::create_directories(page_folder_path);
-    }
 #ifdef _MSC_VER
     HANDLE dumpFileDescriptor = CreateFileA(path.c_str(),
         (isWriting) ? (GENERIC_READ | GENERIC_WRITE) : GENERIC_READ,
