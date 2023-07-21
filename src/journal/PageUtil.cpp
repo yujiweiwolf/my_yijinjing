@@ -187,7 +187,7 @@ void* PageUtil::LoadPageBuffer(const string& path, int size, bool isWriting, boo
 
     return buffer;
 #else
-    int fd = open(path.c_str(), (isWriting) ? (O_RDWR | O_CREAT) : O_RDONLY, (mode_t)0600);
+    int fd = open(path.c_str(), (isWriting) ? (O_RDWR | O_CREAT) : O_RDONLY, (mode_t)0666);
     printf("create file: %s, write flag: %d\n", path.c_str(), isWriting);
     if (fd < 0)
     {
@@ -270,7 +270,7 @@ bool PageUtil::FileExists(const string& filename)
     if (dumpFileDescriptor == NULL) return false;
     else return true;
 #else
-    int fd = open(filename.c_str(), O_RDONLY, (mode_t)0600);
+    int fd = open(filename.c_str(), O_RDONLY, (mode_t)0666);
     if (fd >= 0)
     {
         close(fd);

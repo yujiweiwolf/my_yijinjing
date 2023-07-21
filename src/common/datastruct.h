@@ -64,7 +64,7 @@ struct QTickT {
     int8_t dtype;
     int64_t timestamp;
     char code[32];
-    char name[32];
+    char name[64];
     int8_t market;
     double pre_close;
     double upper_limit;
@@ -103,7 +103,7 @@ struct QTickT {
     int32_t exercise_date;
     double exercise_price;
     int8_t cp_flag;
-    char underlying_code[8];
+    char underlying_code[16];
     int64_t sum_bid_volume;
     double sum_bid_amount;
     int64_t sum_ask_volume;
