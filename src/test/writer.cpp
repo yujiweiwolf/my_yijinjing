@@ -12,7 +12,7 @@ using namespace yijinjing;
 const string kVersion = "v1.0.1";
 
 #define KUNGFU_JOURNAL_FOLDER "../data"  /**< where we put journal files */
-#define COUNT 100000
+#define COUNT 10000
 
 void Test_Write_Memcpy(int interval) {
     JournalWriterPtr trade_writer_ = yijinjing::JournalWriter::create(KUNGFU_JOURNAL_FOLDER, "trade", "Client");
@@ -73,19 +73,13 @@ void Test_Write_Memcpy(int interval) {
     }
 }
 
-
 int main(int argc, char *argv[]){
 //    Test_Write_Memcpy();
 //    return 0;
-
-    JournalWriterPtr trade_writer_ = yijinjing::JournalWriter::create(KUNGFU_JOURNAL_FOLDER, "trade", "Client");
     JournalWriterPtr feeder_writer_ = yijinjing::JournalWriter::create(KUNGFU_JOURNAL_FOLDER, "feeder", "Client");
-
     int count = COUNT;
-    // count = JOURNAL_PAGE_SIZE * 2 / (sizeof(QTickT) + sizeof(TradeOrder)) + 1000;
 
     for(int j = 1; j <= count; ++j) {
-        if (j % 2 == 0) {
             Frame frame = feeder_writer_->locateFrame();
             QTickT* tick = (QTickT*)(frame.getData());
             tick->receive_time = getNanoTime();
@@ -114,23 +108,5 @@ int main(int argc, char *argv[]){
             tick->avg_ask_price = j * 1.0 + 0.5;
             tick->write_time = getNanoTime();
             feeder_writer_->passFrame(frame, sizeof(QTickT), FEEDER_TICK, 0);
-        } else {
-            Frame frame = trade_writer_->locateFrame();
-            TradeOrder* order = (TradeOrder*)(frame.getData());
-            order->receive_time = getNanoTime();
-            sprintf(order->code, "%06d.SH", j);
-            order->volume = j * 100;
-            order->price = j * 1.0;
-            order->bs_flag = (j % 3 == 0) ? 1 : 2;
-            order->order_ref = j;
-            sprintf(order->order_no, "%20221128_%08d", j);
-            order->write_time = getNanoTime();
-            trade_writer_->passFrame(frame, sizeof(TradeOrder), TRADE_ORDER_REQ, 0);
-
-            char log_data[512] = "";
-            sprintf(log_data, "%s------%d", yijinjing::YIJINJING_ERROR.c_str(), j);
-            trade_writer_->write_frame(log_data, strlen(log_data), ONLY_LOG, 0);
-        }
-        // x::Sleep(100);
     }
 }

@@ -127,10 +127,10 @@ inline FH_TYPE_LENGTH Frame::getFrameLength() const
     return frame->length;
 }
 
-inline FH_TYPE_HASHNM Frame::getHashCode() const
-{
-    return frame->hash;
-}
+//inline FH_TYPE_HASHNM Frame::getHashCode() const
+//{
+//    return frame->hash;
+//}
 
 inline FH_TYPE_MSG_TP Frame::getMsgType() const
 {
@@ -172,10 +172,10 @@ inline void Frame::setFrameLength(FH_TYPE_LENGTH length)
     frame->length = length;
 }
 
-inline void Frame::setHashCode(FH_TYPE_HASHNM hashCode)
-{
-    frame->hash = hashCode;
-}
+//inline void Frame::setHashCode(FH_TYPE_HASHNM hashCode)
+//{
+//    frame->hash = hashCode;
+//}
 
 inline void Frame::setMsgType(FH_TYPE_MSG_TP msgType)
 {

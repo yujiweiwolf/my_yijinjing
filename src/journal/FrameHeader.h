@@ -57,27 +57,18 @@ typedef uchar    FH_TYPE_LASTFG;
 #define JOURNAL_FRAME_NOT_LAST          0 /**< false */
 #define JOURNAL_FRAME_IS_LAST           1 /**< true */
 
-struct FrameHeader
-{
-    /** JournalFrameStatus */
-    volatile FH_TYPE_STATUS      status;
+struct FrameHeader {
     /** nano time of the frame data */
-    FH_TYPE_NANOTM      nano;
+    int64_t      nano;
     /** total frame length (including header and errorMsg) */
-    FH_TYPE_LENGTH      length;
-    /** hash code of data part (not whole frame) */
-    FH_TYPE_HASHNM      hash;
+    uint32_t      length;
     /** msg type of the data in frame */
-    FH_TYPE_MSG_TP      msg_type;
+    uint16_t      msg_type;
     /** JournalFrameLastFlag */
-    FH_TYPE_LASTFG      last_flag;
-
-#ifndef _WIN32
-} __attribute__((packed));
-#else
+    uint8_t      last_flag;
+    /** JournalFrameStatus */
+    volatile uint8_t      status;
 };
-#pragma pack(pop)
-#endif
 
 /** length of frame header */
 const FH_TYPE_LENGTH BASIC_FRAME_HEADER_LENGTH = sizeof(FrameHeader);
