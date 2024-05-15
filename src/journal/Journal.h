@@ -60,6 +60,9 @@ private:
 
 
 public:
+    PageHeader* getHeader() {
+        return curPage->getHeader();
+    }
     /** the only entrance of creating a Journal */
     static JournalPtr create(const string& dir, const string& jname, int serviceIdx, PageProviderPtr & provider);
 

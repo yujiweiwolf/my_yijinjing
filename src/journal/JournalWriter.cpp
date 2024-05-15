@@ -23,9 +23,7 @@
  */
 
 #include "JournalWriter.h"
-#include "Journal.h"
-#include "PageProvider.h"
-#include "Timer.h"
+
 #include "../utils/constants.h"
 
 

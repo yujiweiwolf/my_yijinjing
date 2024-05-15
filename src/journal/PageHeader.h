@@ -25,6 +25,11 @@
 
 #include "../utils/YJJ_DECLARE.h"
 #include "../utils/constants.h"
+#include <mutex>
+#include <shared_mutex>
+#include <atomic>
+
+#include <pthread.h>
 
 YJJ_NAMESPACE_START
 
@@ -57,15 +62,12 @@ struct PageHeader
     /** reserve space */
     short   reserve_short[3];
     int64_t    reserve_long[PAGE_HEADER_RESERVE - 1];
+    /** */
 
-
-#ifndef _WIN32
-} __attribute__((packed));
-#else
+    pthread_mutex_t mutex;//互斥锁
+    pthread_mutexattr_t mutexattr;//互斥锁属性对象，用于设置互斥锁
+    // https://blog.csdn.net/jinking01/article/details/128022905
 };
-#pragma pack(pop)
-#endif
-
 
 enum PageStatus
 {

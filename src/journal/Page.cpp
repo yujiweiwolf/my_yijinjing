@@ -18,10 +18,6 @@
 //
 
 #include "Page.h"
-#include "PageHeader.h"
-#include "PageUtil.h"
-#include "Timer.h"
-#include <sstream>
 
 USING_YJJ_NAMESPACE
 
@@ -65,6 +61,10 @@ PagePtr Page::load(const string &dir, const string &jname, short pageNum, bool i
         // write current frame header version inside.
         header->frame_version = __FRAME_HEADER_VERSION__;
         memset((char*)buffer + sizeof(PageHeader), 0, JOURNAL_PAGE_SIZE - sizeof(PageHeader));
+        //
+        pthread_mutexattr_init(&header->mutexattr);         //初始化mutex属性对象
+        pthread_mutexattr_setpshared(&header->mutexattr, PTHREAD_PROCESS_SHARED);    //修改属性为进程间共享
+        pthread_mutex_init(&header->mutex, &header->mutexattr);   //初始化一把mutex琐
     }
     else if (header->frame_version > 0 && header->frame_version!= __FRAME_HEADER_VERSION__)
     {

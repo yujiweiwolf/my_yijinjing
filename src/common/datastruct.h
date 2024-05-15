@@ -174,14 +174,31 @@ struct TradePosition {
     int64_t market; // 市场代码：0-未知，1-上海，2-深圳，3-上海B，4-深圳B，5-中金所，6-上期所，7-大商所，8-郑商所，9-特转A，10-特转B，11-三板
     char code[32]; // 证券代码
     char name[32]; // 证券名称
-    int64_t buy_volume; // 买入数量
-    double buy_market_value; // 买入市值
-    int64_t buy_can_close; // 买入可平仓数量
-    int64_t sell_volume; // 卖出数量
-    double sell_market_value; // 卖出市值
-    int64_t sell_can_close; // 卖出可平仓数量
-    int64_t buy_pre_volume; // 买入昨持仓
-    int64_t sell_pre_volume; // 卖出昨持仓
+    int64_t type = 0;
+    int64_t multiple = 0;
+    int64_t init_volume = 0;
+    double price = 0.0;
+    int64_t long_pre_volume = 0;
+    int64_t long_volume = 0;
+    double long_market_value = 0.0;
+    int64_t long_can_open = 0;
+    int64_t long_can_close = 0;
+    int64_t long_opening = 0;
+    int64_t long_opened = 0;
+    int64_t long_closing = 0;
+    int64_t long_closed = 0;
+    int64_t short_pre_volume = 0;
+    int64_t short_volume = 0;
+    double short_market_value = 0.0;
+    int64_t short_can_open = 0;
+    int64_t short_can_close = 0;
+    int64_t short_opening = 0;
+    int64_t short_opened = 0;
+    int64_t short_closing = 0;
+    int64_t short_closed = 0;
+    int64_t net_volume = 0;
+    int64_t net_limit = 0;
+    int64_t odd_volume = 0;
     bool islast; //是否最后一条
 };
 
@@ -218,6 +235,10 @@ struct TradeOrder {
     int64_t sub_strategy_id; // 子策略ID
     int64_t write_time;
     int64_t receive_time;
+    int64_t feeder_receive_time;
+    int64_t strategy_order_time;
+    int64_t broker_receive_time;
+    int64_t broker_rsp_time;
     bool islast; //是否最后一条
 };
 
@@ -385,20 +406,6 @@ struct StrategyID {
     }
 };
 
-//typedef std::shared_ptr<QueryTradeAssetReq> QueryTradeAssetReqPtr;
-//typedef std::shared_ptr<QueryTradeAssetRep> QueryTradeAssetRepPtr;
-//typedef std::shared_ptr<QueryTradePositionReq> QueryTradePositionReqPtr;
-//typedef std::shared_ptr<QueryTradePositionRep> QueryTradePositionRepPtr;
-//typedef std::shared_ptr<QueryTradeOrderReq> QueryTradeOrderReqPtr;
-//typedef std::shared_ptr<QueryTradeOrderRep> QueryTradeOrderRepPtr;
-//typedef std::shared_ptr<QueryTradeKnockReq> QueryTradeKnockReqPtr;
-//typedef std::shared_ptr<QueryTradeKnockRep> QueryTradeKnockRepPtr;
-//typedef std::shared_ptr<TradeOrderReq> TradeOrderReqPtr;
-//typedef std::shared_ptr<TradeOrderRep> TradeOrderRepPtr;
-//typedef std::shared_ptr<TradeWithdrawReq> TradeWithdrawReqPtr;
-//typedef std::shared_ptr<TradeWithdrawRep> TradeWithdrawRepPtr;
-//typedef std::shared_ptr<InstrumentInfo> QStockPtr;
-
 struct SpinLock {
     explicit SpinLock(std::atomic_flag& flag) : m_flag(flag) {
         while (m_flag.test_and_set(std::memory_order_acquire)) {
@@ -454,10 +461,10 @@ static std::string GetBaicInfo(LogLevel level, const char* file, int line) {
     return strTime;
 }
 
-//static int64_t GetNowNanoTime() {
-//    std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
-//    return now.time_since_epoch().count();
-//}
+static int64_t GetNowNanoTime() {
+    std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+    return now.time_since_epoch().count();
+}
 }  // namespace yjj
 #endif /* DATATYPE_H */
 

@@ -27,6 +27,10 @@
 #include "../utils/constants.h"
 #include "FrameHeader.h"
 #include "Frame.hpp"
+#include "PageHeader.h"
+#include "PageUtil.h"
+#include "Timer.h"
+#include <sstream>
 
 YJJ_NAMESPACE_START
 
@@ -62,6 +66,11 @@ private:
 public:
     /** get page buffer */
     inline void* getBuffer() { return buffer; }
+
+    PageHeader* getHeader() {
+        PageHeader* header = (PageHeader*)buffer;
+        return header;
+    }
     /** get current page number */
     inline short getPageNum() const { return pageNum; };
 

@@ -12,7 +12,7 @@ using namespace yijinjing;
 const string kVersion = "v1.0.1";
 
 #define KUNGFU_JOURNAL_FOLDER "../data"  /**< where we put journal files */
-#define COUNT 10000
+#define COUNT 100000
 
 void Test_Write_Memcpy(int interval) {
     JournalWriterPtr trade_writer_ = yijinjing::JournalWriter::create(KUNGFU_JOURNAL_FOLDER, "trade", "Client");
@@ -79,6 +79,28 @@ int main(int argc, char *argv[]){
     JournalWriterPtr feeder_writer_ = yijinjing::JournalWriter::create(KUNGFU_JOURNAL_FOLDER, "feeder", "Client");
     int count = COUNT;
 
+
+//    struct timespec tout;
+//    struct tm *time;
+//    pthread_t thread1;
+//    void *ret;
+//
+//    clock_gettime(CLOCK_REALTIME,&tout);
+//    tout.tv_sec += 10;
+//    int err = pthread_mutex_timedlock(&feeder_writer_->getHeader()->mutex, &tout);
+//    cout << "time out, pthread_mutex_timed lock, errr: " << err  << endl;
+//    // 若成功，返回0；否则，返回错误编号
+//    if (err != 0) {  // EBUSY
+//        pthread_mutex_unlock(&feeder_writer_->getHeader()->mutex);
+//        cout << "1 pthread_mutex_unlock"  << endl;
+//    }
+//
+//
+//    pthread_mutex_lock(&feeder_writer_->getHeader()->mutex);
+//    cout << "pthread_mutex_lock"  << endl;
+//    return 0;
+////    pthread_mutex_unlock(&feeder_writer_->getHeader()->mutex);
+
     for(int j = 1; j <= count; ++j) {
             Frame frame = feeder_writer_->locateFrame();
             QTickT* tick = (QTickT*)(frame.getData());
@@ -107,6 +129,13 @@ int main(int argc, char *argv[]){
             tick->avg_bid_price = j * 1.0 + 0.5;
             tick->avg_ask_price = j * 1.0 + 0.5;
             tick->write_time = getNanoTime();
-            feeder_writer_->passFrame(frame, sizeof(QTickT), FEEDER_TICK, 0);
+            //feeder_writer_->passFrame(frame, sizeof(QTickT), FEEDER_TICK, 0);
+        {
+            void* buffer = (char*)tick - BASIC_FRAME_HEADER_LENGTH;
+            Frame frame1(buffer);
+            feeder_writer_->passFrame(frame1, sizeof(QTickT), FEEDER_TICK, 0);
+            cout << "frame address: " << frame.getData() << ", frame1 address: " << frame1.getData() << endl;
+            int a = 0;
+        }
     }
 }

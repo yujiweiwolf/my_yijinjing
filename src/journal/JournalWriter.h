@@ -28,6 +28,9 @@
 #include "JournalHandler.h"
 //#include "FrameHeader.h"
 #include "Frame.hpp"
+#include "Journal.h"
+#include "PageProvider.h"
+#include "Timer.h"
 
 YJJ_NAMESPACE_START
 
@@ -47,6 +50,9 @@ public:
     /** init journal */
     void init(const string& dir, const string& jname);
     /** get current page number */
+    PageHeader* getHeader() {
+        return journal->getHeader();
+    }
     short getPageNum() const;
     /* seek to the end of the journal
      * journal can only be appended in the back,
